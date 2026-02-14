@@ -1,6 +1,6 @@
 import CenterContent from "./components/CenterContent/CenterContent"
 import Footer from "./components/footer/Footer"
-import Header from "./components/header/header"
+import Header from "./components/header/Header"
 import LeftSidebar from "./components/LeftSidebar/LeftSidebar"
 import RightSidebar from "./components/RightSidebar/RightSidebar"
 
