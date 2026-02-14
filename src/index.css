@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme {
+  /* Breakpoints */
+  --breakpoint-content: 1120px;
+
+  /* Colors */
+  --color-primary: #0a66c2;
+  --color-primary-dark: #004182;
+  --color-neutral-bg: #f3f2ef;
+  --color-text-neutral: #666666;
+  --color-border-color: #e6e6e6;
+  --color-search-bg: #eef3f8;
+  --color-notification: #cc1016;
+  --color-premium: #915907;
+  --color-gradient-start: #667eea;
+  --color-gradient-end: #764ba2;
+
+  /* Font Family */
+  --font-linkedin: BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+
+  /* Spacing/Sizing */
+  --spacing-header: 52px;
+  --spacing-banner: 54px;
+  --spacing-profile-pic-lg: 72px;
+  --spacing-profile-pic-md: 42px;
+  --spacing-profile-offset: 18px;
+  --spacing-search: 35px;
+  --spacing-puzzle-icon: 40px;
+  --spacing-sidebar-left: 225px;
+  --spacing-sidebar-right: 300px;
+  --spacing-content: 1120px;
+
+  /* Box Shadow */
+  --shadow-header: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+
+.profile-pic-small {
+  @apply w-6 h-6 rounded-full;
+}
+
+.card {
+  @apply bg-white border border-border-color rounded-lg;
+}
+
+.divider {
+  @apply border-t border-border-color;
+}
+
+.text-small-neutral {
+  @apply text-xs text-text-neutral;
+}
+
+.footer-link {
+  @apply text-text-neutral no-underline text-xs transition-colors hover:text-primary;
+}
+
+.nav-item {
+  @apply relative flex flex-col items-center justify-center text-text-neutral no-underline text-xs px-3 pt-2.5 pb-1 h-header gap-0.5 hover:text-black focus:text-black;
+}
+
+.nav-item-active {
+  @apply relative flex flex-col items-center justify-center text-black no-underline text-xs px-3 pt-2.5 pb-1 h-header gap-0.5 border-b-[3px] border-black;
+}
+
+.action-btn {
+  @apply flex items-center gap-2 bg-transparent border-none py-2 px-4 rounded cursor-pointer text-sm text-text-neutral transition-colors hover:bg-neutral-bg;
+}
+
+.menu-item {
+  @apply flex items-center gap-2 py-2 text-xs text-text-neutral cursor-pointer hover:text-black;
+}
+
+.stat-number {
+  @apply text-xs text-primary font-bold;
+}
+
+.btn-primary {
+  @apply bg-primary text-white border-none py-2 px-4 rounded-2xl text-sm font-semibold cursor-pointer transition-colors hover:bg-primary-dark;
+}
+
+.btn-follow {
+  @apply flex items-center gap-1 bg-transparent border border-primary text-primary py-1.5 px-4 rounded-2xl text-sm font-bold cursor-pointer transition-all hover:bg-primary hover:text-white;
+}
