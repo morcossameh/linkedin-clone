@@ -1,23 +1,35 @@
-import CenterContent from "./components/CenterContent/CenterContent"
-import Footer from "./components/footer/Footer"
-import Header from "./components/header/Header"
-import LeftSidebar from "./components/LeftSidebar/LeftSidebar"
-import RightSidebar from "./components/RightSidebar/RightSidebar"
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import Login from './pages/Login'
+import Feed from './pages/Feed'
+import ProtectedRoute from './components/ProtectedRoute'
+import { isAuthenticated } from './services/authService'
 
 function App() {
-
   return (
-    <div className="bg-neutral-bg font-linkedin min-h-screen">
-      <Header />
-
-      <main className="max-w-content mx-auto pt-16 px-6 grid grid-cols-[225px_1fr_300px] gap-6 max-content:flex max-content:flex-col">
-        <LeftSidebar />
-        <CenterContent />
-        <RightSidebar />
-      </main>
-
-      <Footer />
-    </div>
+    <Router>
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            isAuthenticated() ? <Navigate to="/feed" replace /> : <Login />
+          }
+        />
+        <Route
+          path="/feed"
+          element={
+            <ProtectedRoute>
+              <Feed />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/"
+          element={
+            isAuthenticated() ? <Navigate to="/feed" replace /> : <Navigate to="/login" replace />
+          }
+        />
+      </Routes>
+    </Router>
   )
 }
 
