@@ -1,43 +1,48 @@
-import { getDateString } from "../utils/dateUtils";
+import { getDateString } from "../utils/dateUtils"
+import type { Post as PostType } from '../types'
 
-function Post({ post }) {
+interface PostProps {
+  post: PostType
+}
+
+function Post({ post }: PostProps) {
   const totalReactions = post.reactions?.reduce(
     (acc, curr) => acc + curr.count,
     0
-  ) || 0;
+  ) || 0
 
-  const commentsCount = post.commentsCount || 0;
-  const repostsCount = post.repostsCount || 0;
+  const commentsCount = post.commentsCount || 0
+  const repostsCount = post.repostsCount || 0
 
   const hasStats =
     commentsCount > 0 ||
     repostsCount > 0 ||
-    (post.reactions && post.reactions.length > 0);
+    (post.reactions && post.reactions.length > 0)
 
-  let commentsRepostsStr = "";
+  let commentsRepostsStr = ""
   if (commentsCount > 0) {
-    commentsRepostsStr += `${commentsCount} comments`;
+    commentsRepostsStr += `${commentsCount} comments`
   }
   if (commentsCount > 0 && repostsCount > 0) {
-    commentsRepostsStr += " • ";
+    commentsRepostsStr += " • "
   }
   if (repostsCount > 0) {
-    commentsRepostsStr += `${repostsCount} reposts`;
+    commentsRepostsStr += `${repostsCount} reposts`
   }
 
   const userName = post.user
     ? `${post.user.firstName} ${post.user.lastName}`
-    : post.person?.name || "Unknown User";
+    : post.person?.name || "Unknown User"
 
-  const userTitle = post.user?.headline || post.person?.title || "";
-  const profilePicture = post.user?.profilePicture || post.person?.profilePicture || "https://via.placeholder.com/48";
+  const userTitle = post.user?.headline || post.person?.title || ""
+  const profilePicture = post.user?.profilePicture || post.person?.profilePicture || "https://via.placeholder.com/48"
 
-  const postDate = post.createdAt ? new Date(post.createdAt).toISOString().split("T")[0] : post.date;
+  const postDate = post.createdAt ? new Date(post.createdAt).toISOString().split("T")[0] : post.date || ""
   const postTime = post.createdAt ? new Date(post.createdAt).toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-  }) : post.time;
+  }) : post.time || ""
 
   return (
     <article className="card mb-2">
@@ -96,7 +101,7 @@ function Post({ post }) {
         </div>
       </div>
     </article>
-  );
+  )
 }
 
-export default Post;
+export default Post

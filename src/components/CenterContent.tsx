@@ -1,34 +1,35 @@
-import { useState, useEffect } from "react";
-import Post from "./Post";
-import PostCreation from "./PostCreation";
-import { fetchPosts } from "../services/postsService";
+import { useState, useEffect } from "react"
+import Post from "./Post"
+import PostCreation from "./PostCreation"
+import { fetchPosts } from "../services/postsService"
+import type { Post as PostType } from '../types'
 
 function CenterContent() {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [posts, setPosts] = useState<PostType[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    loadPosts();
-  }, []);
+    loadPosts()
+  }, [])
 
   const loadPosts = async () => {
     try {
-      setLoading(true);
-      setError(null);
-      const response = await fetchPosts();
-      setPosts(response.posts || []);
+      setLoading(true)
+      setError(null)
+      const response = await fetchPosts()
+      setPosts(response.posts || [])
     } catch (err) {
-      setError(err.message || 'Failed to load posts');
-      console.error('Error loading posts:', err);
+      setError(err instanceof Error ? err.message : 'Failed to load posts')
+      console.error('Error loading posts:', err)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
-  const handleCreatePost = (newPost) => {
-    setPosts([newPost, ...posts]);
-  };
+  const handleCreatePost = (newPost: PostType) => {
+    setPosts([newPost, ...posts])
+  }
 
   if (loading) {
     return (
@@ -39,7 +40,7 @@ function CenterContent() {
           <p className="mt-4 text-text-neutral">Loading posts...</p>
         </div>
       </section>
-    );
+    )
   }
 
   if (error) {
@@ -56,7 +57,7 @@ function CenterContent() {
           </button>
         </div>
       </section>
-    );
+    )
   }
 
   return (
@@ -83,7 +84,7 @@ function CenterContent() {
         )}
       </section>
     </section>
-  );
+  )
 }
 
-export default CenterContent;
+export default CenterContent

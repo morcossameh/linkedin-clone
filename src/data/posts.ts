@@ -1,4 +1,6 @@
-export const persons = [
+import type { Person, Post } from '../types'
+
+export const persons: Person[] = [
   {
     name: "Bellinda Mesbah",
     profilePicture:
@@ -18,9 +20,9 @@ export const persons = [
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face",
     title: "Software Engineer at Meta",
   },
-];
+]
 
-export const initialPosts = [
+export const initialPosts: Post[] = [
   {
     id: 0,
     person: persons[0],
@@ -65,6 +67,6 @@ export const initialPosts = [
     },
     reposts: 12,
   },
-];
+]
 
-export const currentUser = persons[2];
+export const currentUser: Person = persons[2]

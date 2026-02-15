@@ -1,5 +1,4 @@
 function Header() {
-
   return (
     <header className="bg-white border-b border-border-color fixed top-0 w-full z-50 px-4 h-header shadow-header">
       <div className="max-w-content mx-auto flex items-center h-full">
@@ -55,7 +54,7 @@ function Header() {
         </nav>
       </div>
     </header>
-  );
+  )
 }
 
-export default Header;
+export default Header

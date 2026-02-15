@@ -54,7 +54,7 @@ function LeftSidebar() {
         </div>
       </div>
     </aside>
-  );
+  )
 }
 
-export default LeftSidebar;
+export default LeftSidebar

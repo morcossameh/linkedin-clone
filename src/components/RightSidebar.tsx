@@ -1,5 +1,12 @@
+interface Suggestion {
+  name: string
+  badge: boolean
+  description: string
+  image: string
+}
+
 function RightSidebar() {
-  const suggestions = [
+  const suggestions: Suggestion[] = [
     {
       name: "Irina Stanescu",
       badge: true,
@@ -22,7 +29,7 @@ function RightSidebar() {
       image:
         "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
     },
-  ];
+  ]
 
   return (
     <aside className="flex flex-col gap-4">
@@ -94,7 +101,7 @@ function RightSidebar() {
         <button className="btn-primary mt-3">Start now</button>
       </div>
     </aside>
-  );
+  )
 }
 
-export default RightSidebar;
+export default RightSidebar

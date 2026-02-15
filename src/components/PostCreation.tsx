@@ -1,36 +1,41 @@
-import { useState } from "react";
-import { createPost } from "../services/postsService";
-import { getStoredUser } from "../services/authService";
+import { useState } from "react"
+import { createPost } from "../services/postsService"
+import { getStoredUser } from "../services/authService"
+import type { Post } from '../types'
 
-function PostCreation({ onCreatePost }) {
-  const [postContent, setPostContent] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState(null);
+interface PostCreationProps {
+  onCreatePost: (post: Post) => void
+}
 
-  const currentUser = getStoredUser();
+function PostCreation({ onCreatePost }: PostCreationProps) {
+  const [postContent, setPostContent] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleKeyPress = async (e) => {
+  const currentUser = getStoredUser()
+
+  const handleKeyPress = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      e.preventDefault();
+      e.preventDefault()
 
-      const content = postContent.trim();
-      if (content === "" || isSubmitting) return;
+      const content = postContent.trim()
+      if (content === "" || isSubmitting) return
 
-      setIsSubmitting(true);
-      setError(null);
+      setIsSubmitting(true)
+      setError(null)
 
       try {
-        const newPost = await createPost(`<p>${content}</p>`, [], 0, 0);
-        onCreatePost(newPost);
-        setPostContent("");
+        const newPost = await createPost(`<p>${content}</p>`, [], 0, 0)
+        onCreatePost(newPost)
+        setPostContent("")
       } catch (err) {
-        setError(err.message || 'Failed to create post');
-        console.error('Error creating post:', err);
+        setError(err instanceof Error ? err.message : 'Failed to create post')
+        console.error('Error creating post:', err)
       } finally {
-        setIsSubmitting(false);
+        setIsSubmitting(false)
       }
     }
-  };
+  }
 
   return (
     <div className="card p-3 px-4">
@@ -70,7 +75,7 @@ function PostCreation({ onCreatePost }) {
         </button>
       </div>
     </div>
-  );
+  )
 }
 
-export default PostCreation;
+export default PostCreation

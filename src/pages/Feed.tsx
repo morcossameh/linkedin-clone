@@ -1,8 +1,8 @@
-import CenterContent from "../components/CenterContent";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import LeftSidebar from "../components/LeftSidebar";
-import RightSidebar from "../components/RightSidebar";
+import CenterContent from "../components/CenterContent"
+import Footer from "../components/Footer"
+import Header from "../components/Header"
+import LeftSidebar from "../components/LeftSidebar"
+import RightSidebar from "../components/RightSidebar"
 
 function Feed() {
   return (
@@ -17,7 +17,7 @@ function Feed() {
 
       <Footer />
     </div>
-  );
+  )
 }
 
-export default Feed;
+export default Feed

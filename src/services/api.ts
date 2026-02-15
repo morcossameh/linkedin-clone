@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios, { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios'
+import type { AxiosConfigWithRetry, RefreshTokenResponse } from '../types'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
 
@@ -12,19 +13,19 @@ const api = axios.create({
 
 // Request interceptor: Add auth token to all requests
 api.interceptors.request.use(
-  (config) => {
+  (config: InternalAxiosRequestConfig) => {
     const token = localStorage.getItem('accessToken')
-    if (token) {
+    if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`
     }
     return config
   },
-  (error) => {
+  (error: AxiosError) => {
     return Promise.reject(error)
   }
 )
 
-function clearAndRedirectToLogin() {
+function clearAndRedirectToLogin(): Promise<never> {
   localStorage.clear()
   sessionStorage.clear()
   window.location.href = '/login'
@@ -33,12 +34,12 @@ function clearAndRedirectToLogin() {
 
 // Response interceptor: Handle errors and token refresh
 api.interceptors.response.use(
-  (response) => {
+  (response: AxiosResponse) => {
     // Successfully received response
     return response
   },
-  async (error) => {
-    const originalRequest = error.config
+  async (error: AxiosError) => {
+    const originalRequest = error.config as InternalAxiosRequestConfig & AxiosConfigWithRetry
 
     // Handle 403 Forbidden - clear storage and redirect to login
     if (error.response?.status === 403) {
@@ -48,7 +49,10 @@ api.interceptors.response.use(
     // If error is not 401 or request is already retried, format and throw error
     if (error.response?.status !== 401 || originalRequest._retry) {
       // Format error message
-      const errorMessage = error.response?.data?.error || error.message || 'An error occurred'
+      const errorMessage =
+        (error.response?.data as { error?: string })?.error ||
+        error.message ||
+        'An error occurred'
       return Promise.reject(new Error(errorMessage))
     }
 
@@ -62,9 +66,10 @@ api.interceptors.response.use(
     }
 
     try {
-      const response = await axios.post(`${API_URL}/api/auth/refresh-token`, {
-        refreshToken
-      })
+      const response = await axios.post<RefreshTokenResponse>(
+        `${API_URL}/api/auth/refresh-token`,
+        { refreshToken }
+      )
 
       const { accessToken, refreshToken: newRefreshToken } = response.data
 
@@ -73,11 +78,13 @@ api.interceptors.response.use(
       localStorage.setItem('refreshToken', newRefreshToken)
 
       // Update the failed request's authorization header
-      originalRequest.headers.Authorization = `Bearer ${accessToken}`
+      if (originalRequest.headers) {
+        originalRequest.headers.Authorization = `Bearer ${accessToken}`
+      }
 
       // Retry the original request with new token
       return api(originalRequest)
-    } catch (refreshError) {
+    } catch {
       return clearAndRedirectToLogin()
     }
   }

@@ -11,7 +11,7 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError('')
     setIsLoading(true)
@@ -29,7 +29,7 @@ function Login() {
 
       navigate('/feed')
     } catch (err) {
-      setError(err.message || 'Invalid email or password')
+      setError(err instanceof Error ? err.message : 'Invalid email or password')
     } finally {
       setIsLoading(false)
     }
